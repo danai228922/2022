@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
+  <title>My LIFF App</title>
+  <style>
+    body { padding: 256px }
+    button { display: none; width: 50%; padding: 16px 0; margin: 16px auto }
+  </style>
+</head>
+<body>
+  <button id="btnShare" onclick="sendShare()">Share Target Picker</button>
+  <button id="btnLogin" onclick="liff.login()">Log In</button>
+  <button id="btnLogOut" onclick="logOut()">Log Out</button>
+  <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
+  <script>
+    async function sendShare() {
+      const result = await liff.shareTargetPicker([
+        {
+          "type": "flex",
+          "altText": "คู่มือการจัดการเรียนรู้",
+          "contents":{
+  "type": "bubble",
+  "size": "giga",
+  "hero": {
+    "type": "image",
+    "url": "https://www.img.in.th/images/bd551f72a33e61a4f385477504363000.png",
+    "size": "full",
+    "aspectMode": "cover",
+    "aspectRatio": "18:4"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "image",
+            "size": "full",
+            "aspectRatio": "4:5",
+            "aspectMode": "cover",
+            "action": {
+              "type": "uri",
+              "label": "ข้อ 1. ทาน",
+              "uri": "https://drive.google.com/file/d/1W6nmFn8xteKTqiY15revF1AucarTsOjX/view?usp=sharing"
+            },
+            "offsetTop": "sm",
+            "offsetBottom": "sm",
+            "offsetStart": "xs",
+            "offsetEnd": "md",
+            "url": "https://www.img.in.th/images/23fb692418bef172d59fe82e321cf95b.jpg",
+            "margin": "none",
+            "animated": false
+          },
+          {
+            "type": "image",
+            "size": "full",
+            "aspectRatio": "4:5",
+            "aspectMode": "cover",
+            "action": {
+              "type": "uri",
+              "label": "ข้อ 1. ทาน",
+              "uri": "https://drive.google.com/file/d/1ggcJAAkk1jUfk_HQwfZmWsWTuzBw9Fvw/view?usp=sharing"
+            },
+            "offsetTop": "sm",
+            "offsetBottom": "sm",
+            "offsetStart": "sm",
+            "offsetEnd": "md",
+            "url": "https://sv1.picz.in.th/images/2021/09/17/CDlLKu.jpg",
+            "margin": "none",
+            "animated": false
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "= ให้คลิกที่ภาพ แต่ละภาพ เพื่อดูรายละเอียด =",
+            "align": "center",
+            "margin": "md",
+            "color": "#ffffff",
+            "offsetTop": "sm"
+          },
+          {
+            "type": "separator",
+            "margin": "lg",
+            "color": "#FFFFFF"
+          }
+        ]
+      }
+    ],
+    "paddingAll": "xs",
+    "backgroundColor": "#f5969c"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": ">> 웃 ส่งต่อให้เพื่อนๆ ღ",
+        "align": "end",
+        "offsetEnd": "lg",
+        "color": "#ffffff",
+        "action": {
+          "type": "uri",
+          "label": "ส่งต่อให้เพื่อน",
+          "uri": "https://liff.line.me/1655879041-1yGvKdOW"
+        },
+        "size": "md"
+      }
+    ],
+    "backgroundColor": "#da3578"
+  }
+}
+        }
+      ])
+      if (result) {
+        alert(`[${result.status}] Message sent!`)
+      } else {
+        const [majorVer, minorVer, patchVer] = (liff.getLineVersion() || "").split('.');
+
+        if (minorVer === undefined) {
+          alert('ShareTargetPicker was canceled in external browser')
+          return
+        }
+
+        if (parseInt(majorVer) >= 10 && parseInt(minorVer) >= 10 && parseInt(patchVer) > 0) {
+          alert('ShareTargetPicker was canceled in LINE app')
+        }
+      }
+    }
+    function logOut() {
+      liff.logout()
+      window.location.reload()
+    }
+    async function main() {
+      await liff.init({ liffId: "1655879041-5NaX1BOj" })
+      if (liff.isLoggedIn()) {
+        document.getElementById("btnShare").style.display = "block"
+        if (!liff.isInClient()) {
+          document.getElementById("btnLogOut").style.display = "block"
+        }
+      } else {
+        document.getElementById("btnLogin").style.display = "block"
+      }
+    }
+    main()
+  </script>
+</body>
+</html>
